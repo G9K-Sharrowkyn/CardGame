@@ -84,9 +84,9 @@ const GameInterface = ({ user, roomId, initialDeck }) => {
       setShouldAnimateButton(true);
       socket.emit('playMove', { roomId, move: { playedCommand: selectedCard, player: user.id } });
     } else if (gameMechanics.getCurrentPhase() === Phases.DEPLOYMENT && zone === 'unit-zone') {
-      if (details.cost > commandPoints) return;
+      if (details.commandCost > commandPoints) return;
       setPlayerUnits([...playerUnits, selectedCard]);
-      setCommandPoints(p => p - details.cost);
+      setCommandPoints(p => p - details.commandCost);
       setHand(hand.filter(c => c !== selectedCard));
       setSelectedCard(null);
       socket.emit('playMove', { roomId, move: { playedUnit: selectedCard, player: user.id } });
@@ -104,27 +104,33 @@ const GameInterface = ({ user, roomId, initialDeck }) => {
           {currentPhase === Phases.BATTLE ? 'Zakończ Turę' : 'Koniec Fazy'}
         </button>
       </div>
-      <div className="flex-grow flex flex-col">
+      <div className="flex-grow flex flex-col game-board">
         <div className="flex flex-1 space-x-2 p-4">
-          <div className="w-1/2 bg-blue-100 rounded p-2 min-h-[12rem]">Strefa Przeciwnika (jednostki)</div>
-          <div className="w-1/2 bg-green-100 rounded p-2 min-h-[12rem]">Strefa Przeciwnika (mana)</div>
+          <div className="w-1/2 zone">Strefa Przeciwnika (jednostki)</div>
+          <div className="w-1/2 zone">Strefa Przeciwnika (mana)</div>
         </div>
         <div className="flex-grow flex flex-col justify-end">
           <div className="flex space-x-2 p-4">
-            <div className="flex-1 bg-blue-100 rounded p-2 cursor-pointer" onClick={() => deploy('unit-zone')}>
+            <div className="flex-1 zone grid grid-cols-5 gap-1 cursor-pointer" onClick={() => deploy('unit-zone')}>
               {playerUnits.map((card, idx) => (
-                <img key={idx} src={card.imageUrl} alt={card.name}
-                  className={`inline-block m-1 ${selectedCard === card ? 'scale-150 z-10' : ''}`}
-                  style={{ maxWidth: '10%' }}
-                  onClick={(e) => { e.stopPropagation(); selectCard(card); }} />
+                <img
+                  key={idx}
+                  src={card.imageUrl}
+                  alt={card.name}
+                  className={`w-16 sm:w-20 md:w-24 m-1 rounded shadow-lg transition-transform duration-200 ${selectedCard === card ? 'ring-2 ring-yellow-400 transform scale-125 z-10' : 'hover:scale-105'}`}
+                  onClick={(e) => { e.stopPropagation(); selectCard(card); }}
+                />
               ))}
             </div>
-            <div className="flex-1 bg-green-100 rounded p-2 cursor-pointer" onClick={() => deploy('command-zone')}>
+            <div className="flex-1 zone grid grid-cols-5 gap-1 cursor-pointer" onClick={() => deploy('command-zone')}>
               {playerCommands.map((card, idx) => (
-                <img key={idx} src={card.imageUrl} alt={card.name}
-                  className={`inline-block m-1 ${selectedCard === card ? 'scale-150 z-10' : ''}`}
-                  style={{ maxWidth: '10%' }}
-                  onClick={(e) => { e.stopPropagation(); selectCard(card); }} />
+                <img
+                  key={idx}
+                  src={card.imageUrl}
+                  alt={card.name}
+                  className={`w-16 sm:w-20 md:w-24 m-1 rounded shadow-lg transition-transform duration-200 ${selectedCard === card ? 'ring-2 ring-yellow-400 transform scale-125 z-10' : 'hover:scale-105'}`}
+                  onClick={(e) => { e.stopPropagation(); selectCard(card); }}
+                />
               ))}
             </div>
           </div>
@@ -133,12 +139,15 @@ const GameInterface = ({ user, roomId, initialDeck }) => {
           <button className={`bg-blue-600 px-4 py-2 rounded ${currentPhase === Phases.COMMAND && !hasDrawnCard ? 'animate-golden-line' : ''}`} onClick={drawCard}>
             Dobierz Karty ({deck.length})
           </button>
-          <div className="flex flex-wrap">
+          <div className="flex flex-wrap justify-center">
             {hand.map((card, idx) => (
-              <img key={idx} src={card.imageUrl} alt={card.name}
-                className={`m-1 bg-white rounded cursor-pointer ${selectedCard === card ? 'ring-2 ring-blue-500 animate-selected' : ''}`}
-                style={{ maxWidth: '10%' }}
-                onClick={() => selectCard(card)} />
+              <img
+                key={idx}
+                src={card.imageUrl}
+                alt={card.name}
+                className={`w-16 sm:w-20 md:w-24 m-1 bg-white rounded shadow-lg cursor-pointer transition-transform duration-200 ${selectedCard === card ? 'ring-2 ring-blue-500 transform scale-125 z-10' : 'hover:scale-105'}`}
+                onClick={() => selectCard(card)}
+              />
             ))}
           </div>
         </div>

@@ -1,9 +1,11 @@
 import fs from 'fs/promises';
 import path from 'path';
+import { fileURLToPath } from 'url';
 
-const usersFile = path.join(process.cwd(), 'data', 'users.json');
-const cardsFile = path.join(process.cwd(), 'data', 'cards.json');
-// ↑ oba pliki będą: <cwd>/data/users.json i <cwd>/data/cards.json
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const dataDir = path.join(__dirname, '..', 'data');
+const usersFile = path.join(dataDir, 'users.json');
+const cardsFile = path.join(dataDir, 'cards.json');
 
 async function loadUsers() {
   try {
@@ -35,7 +37,7 @@ export const getProfile = async (req, res) => {
     return res.status(404).json({ message: 'Użytkownik nie znaleziony' });
   }
   const userCards = user.collection
-    .map(cardId => cards.find(c => c._id === cardId))
+    .map(cardId => cards.find(c => c._id === cardId || c.name === cardId))
     .filter(Boolean);
 
   res.json({
@@ -60,7 +62,7 @@ export const addToCollection = async (req, res) => {
     return res.status(404).json({ message: 'Użytkownik nie znaleziony' });
   }
 
-  const existsCard = cards.some(c => c._id === cardId);
+  const existsCard = cards.some(c => c._id === cardId || c.name === cardId);
   if (!existsCard) {
     return res.status(404).json({ message: 'Takiej karty nie ma' });
   }

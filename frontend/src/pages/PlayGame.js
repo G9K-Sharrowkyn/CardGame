@@ -12,7 +12,7 @@ const PlayGame = ({ user }) => {
   useEffect(() => {
     socket.emit('joinRoom', { roomId, user: { id: user.id, username: user.username } });
     socket.on('playersUpdate', (list) => {
-      const opp = list.find(u => u !== user.id);
+      const opp = list.find(u => u.id !== user.id);
       if (opp) setOpponent(opp);
     });
     socket.on('gameStart', ({ deck }) => {
