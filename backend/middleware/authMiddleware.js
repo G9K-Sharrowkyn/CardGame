@@ -1,9 +1,11 @@
 import jwt from 'jsonwebtoken';
 import fs from 'fs/promises';
 import path from 'path';
+import { fileURLToPath } from 'url';
 
-const usersFile = path.join(process.cwd(), 'data', 'users.json');
-// ↑ teraz: <cwd>/data/users.json
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const dataDir = path.join(__dirname, '..', 'data');
+const usersFile = path.join(dataDir, 'users.json');
 
 async function loadUsers() {
   try {
