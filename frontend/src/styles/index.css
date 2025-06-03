@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background: linear-gradient(135deg, #1a2a6c, #2a4d69);
+  min-height: 100vh;
+  font-family: 'Roboto', sans-serif;
+}
+
+.card {
+  transition: all 0.3s ease;
+  transform-style: preserve-3d;
+}
+
+.card:hover {
+  transform: translateY(-5px) scale(1.03);
+}
+
+.tapped {
+  transform: rotate(90deg);
+}

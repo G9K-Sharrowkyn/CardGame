@@ -1,0 +1,17 @@
+[
+  {
+    "_id": "Aberran_Firenaute",
+    "name": "Aberran_Firenaute",
+    "imageUrl": "/assets/cards/Aberran_Firenaute.png"
+  },
+  {
+    "_id": "Aelgallan_Flamers",
+    "name": "Aelgallan_Flamers",
+    "imageUrl": "/assets/cards/Aelgallan_Flamers.png"
+  },
+  {
+    "_id": "Ahorhee_Laron_the_explorer",
+    "name": "Ahorhee_Laron_the_explorer",
+    "imageUrl": "/assets/cards/Ahorhee_Laron_the_explorer.png"
+  }
+]

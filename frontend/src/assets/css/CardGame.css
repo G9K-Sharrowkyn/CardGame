@@ -1,0 +1,16 @@
+@keyframes goldenLine {
+  0% { box-shadow: 0 0 5px 5px gold; }
+  100% { box-shadow: 0 0 0 0 gold; }
+}
+
+.animate-golden-line {
+  animation: goldenLine 1s ease-in-out infinite alternate;
+}
+
+.animate-selected {
+  transform: scale(2);
+  position: relative;
+  z-index: 10;
+  transform-origin: bottom center;
+  animation: goldenLine 1s ease-in-out infinite alternate;
+}
