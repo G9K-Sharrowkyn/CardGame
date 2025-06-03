@@ -45,4 +45,4 @@ class Bot {
   }
 }
 
-module.exports = Bot;
+export default Bot;
