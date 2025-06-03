@@ -15,8 +15,10 @@ test('get cards list', async () => {
 });
 
 test('register, login, add to collection', async () => {
-  const email = `u${Date.now()}@ex.com`;
-  const username = `tester_${Date.now()}`;
+  const timestamp = Date.now();
+  const email = `u${timestamp}@ex.com`;
+  const username = `tester_${timestamp}`;
+
   const { body } = await request(server)
     .post('/api/auth/register')
     .send({ username, email, password: 'pass123' })

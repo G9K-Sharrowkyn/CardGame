@@ -9,8 +9,10 @@ describe('Auth endpoints', () => {
   afterAll(() => server.close());
 
   test('register and login', async () => {
-    const email = `test_${Date.now()}@example.com`;
-    const username = `test_${Date.now()}`;
+    const timestamp = Date.now();
+    const email = `test_${timestamp}@example.com`;
+    const username = `test_${timestamp}`;
+
     const resReg = await request(server)
       .post('/api/auth/register')
       .send({ username, email, password: 'pass123' })
