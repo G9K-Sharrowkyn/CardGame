@@ -59,20 +59,22 @@ export const register = async (req, res) => {
 };
 
 export const login = async (req, res) => {
-  const { email, password } = req.body;
-  if (!email || !password) {
-    return res.status(400).json({ message: 'Wymagane: email, password' });
+  const { email, username, password } = req.body;
+  if ((!email && !username) || !password) {
+    return res.status(400).json({ message: 'Wymagane: email lub username oraz hasło' });
   }
 
   const users = await loadUsers();
-  const user = users.find(u => u.email === email);
+  const user = users.find(u =>
+    email ? u.email === email : u.username === username
+  );
   if (!user) {
-    return res.status(400).json({ message: 'Nieprawidłowe dane' });
+    return res.status(401).json({ message: 'Nieprawidłowe dane' });
   }
 
   const match = await bcrypt.compare(password, user.password);
   if (!match) {
-    return res.status(400).json({ message: 'Nieprawidłowe dane' });
+    return res.status(401).json({ message: 'Nieprawidłowe dane' });
   }
 
   const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '7d' });
