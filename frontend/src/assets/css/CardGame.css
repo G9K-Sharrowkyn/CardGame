@@ -14,3 +14,16 @@
   transform-origin: bottom center;
   animation: goldenLine 1s ease-in-out infinite alternate;
 }
+
+.game-board {
+  background: radial-gradient(circle at center, #2a4d69, #1a2a6c);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.zone {
+  min-height: 6rem;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 6px;
+}

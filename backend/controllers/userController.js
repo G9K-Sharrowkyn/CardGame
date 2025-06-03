@@ -1,9 +1,11 @@
 import fs from 'fs/promises';
 import path from 'path';
+import { fileURLToPath } from 'url';
 
-const usersFile = path.join(process.cwd(), 'data', 'users.json');
-const cardsFile = path.join(process.cwd(), 'data', 'cards.json');
-// ↑ oba pliki będą: <cwd>/data/users.json i <cwd>/data/cards.json
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const dataDir = path.join(__dirname, '..', 'data');
+const usersFile = path.join(dataDir, 'users.json');
+const cardsFile = path.join(dataDir, 'cards.json');
 
 async function loadUsers() {
   try {
