@@ -1,4 +1,4 @@
-const { users, games, cards } = require('./database');
+import { users, games, cards } from './database.js';
 
 const createGame = (playerId, vsBot = false) => {
   const user = users.find(u => u.id === playerId);
@@ -118,4 +118,4 @@ const endTurn = (gameId, playerId) => {
   return true;
 };
 
-module.exports = { createGame, drawCard, playMana, playCard, attack, endTurn };
+export { createGame, drawCard, playMana, playCard, attack, endTurn };

@@ -1,13 +1,13 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const socketIo = require('socket.io');
-const http = require('http');
-const authRoutes = require('./auth');
-const User = require('./models/User');
+import express from 'express';
+import mongoose from 'mongoose';
+import { Server } from 'socket.io';
+import http from 'http';
+import authRoutes from './auth.js';
+import User from './models/User.js';
 
 const app = express();
 const server = http.createServer(app);
-const io = socketIo(server);
+const io = new Server(server);
 
 mongoose.connect('mongodb://localhost/ccg', { useNewUrlParser: true, useUnifiedTopology: true });
 
