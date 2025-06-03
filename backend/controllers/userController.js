@@ -37,7 +37,7 @@ export const getProfile = async (req, res) => {
     return res.status(404).json({ message: 'Użytkownik nie znaleziony' });
   }
   const userCards = user.collection
-    .map(cardId => cards.find(c => c._id === cardId))
+    .map(cardId => cards.find(c => c._id === cardId || c.name === cardId))
     .filter(Boolean);
 
   res.json({
@@ -62,7 +62,7 @@ export const addToCollection = async (req, res) => {
     return res.status(404).json({ message: 'Użytkownik nie znaleziony' });
   }
 
-  const existsCard = cards.some(c => c._id === cardId);
+  const existsCard = cards.some(c => c._id === cardId || c.name === cardId);
   if (!existsCard) {
     return res.status(404).json({ message: 'Takiej karty nie ma' });
   }

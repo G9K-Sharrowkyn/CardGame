@@ -6,8 +6,8 @@ const server = http.createServer(app);
 
 let token;
 
-beforeAll(done => server.listen(0, done));
-afterAll(done => server.close(done));
+beforeAll(() => server.listen(0));
+afterAll(() => server.close());
 
 test('get cards list', async () => {
   const res = await request(server).get('/api/users/cards').expect(200);
@@ -15,10 +15,13 @@ test('get cards list', async () => {
 });
 
 test('register, login, add to collection', async () => {
-  const email = `u${Date.now()}@ex.com`;
+  const timestamp = Date.now();
+  const email = `u${timestamp}@ex.com`;
+  const username = `tester_${timestamp}`;
+
   const { body } = await request(server)
     .post('/api/auth/register')
-    .send({ username: 'tester', email, password: 'pass123' })
+    .send({ username, email, password: 'pass123' })
     .expect(201);
   token = body.token;
 
