@@ -2,24 +2,24 @@ const cardsSpecifics = [
     {
     name: 'Yazzilan_Industry_Zone',
     redCounters: 0,
-    blueCounters: 0,
+    blueCounters: 2,
     attack: 0,
-    defense: 0,
-    commandCost: 0,
+    defense: 3,
+    commandCost: 1,
     unitMembers: 0,
     type: ["Shipyard"],
-    specialAbility: "Description of special ability."
+    specialAbility: "Generates 2 mana per turn."
     },
     {
     name: 'Yazzilan_Dockyard',
     redCounters: 0,
-    blueCounters: 0,
+    blueCounters: 1,
     attack: 0,
-    defense: 0,
-    commandCost: 0,
+    defense: 2,
+    commandCost: 1,
     unitMembers: 0,
     type: ["Shipyard"],
-    specialAbility: "Description of special ability."
+    specialAbility: "Generates 1 mana per turn."
     },
     {
     name: 'Terran_Shipyard',

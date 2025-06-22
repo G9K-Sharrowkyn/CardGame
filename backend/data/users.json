@@ -10,5 +10,21 @@
       "Aelgallan_Flamers",
       "Aberran_Firenaute"
     ]
+  },
+  {
+    "id": "be48a648-a06e-466e-9cdc-e3fd27f2bbdf",
+    "username": "testuser",
+    "email": "test@test.com",
+    "password": "$2b$10$20Zric5AiESCQduqKk0MEu8ky.4cnSBRTtj8RbjJdLWoHGYTrrooG",
+    "points": 0,
+    "collection": []
+  },
+  {
+    "id": "53b985af-b5f3-4616-9d01-96c328b5d90d",
+    "username": "aaaaa",
+    "email": "aaaaa@wp.pl",
+    "password": "$2b$10$.yLZhcVT5fXAPeUSY5YNXepATdRiZ2XrBWj899kVEBgCx8cOboKNW",
+    "points": 0,
+    "collection": []
   }
 ]

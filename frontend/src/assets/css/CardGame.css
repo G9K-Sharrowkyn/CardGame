@@ -3,16 +3,57 @@
   100% { box-shadow: 0 0 0 0 gold; }
 }
 
+@keyframes cardGlow {
+  0% { box-shadow: 0 0 10px rgba(59, 130, 246, 0.5); }
+  50% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.8), 0 0 30px rgba(59, 130, 246, 0.3); }
+  100% { box-shadow: 0 0 10px rgba(59, 130, 246, 0.5); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
 .animate-golden-line {
   animation: goldenLine 1s ease-in-out infinite alternate;
 }
 
 .animate-selected {
-  transform: scale(2);
+  transform: scale(1.1);
   position: relative;
-  z-index: 10;
+  z-index: 20;
   transform-origin: bottom center;
-  animation: goldenLine 1s ease-in-out infinite alternate;
+  animation: cardGlow 2s ease-in-out infinite;
+}
+
+.card-hover {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-hover:hover {
+  transform: translateY(-8px) scale(1.05);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.zone-glow {
+  position: relative;
+  overflow: hidden;
+}
+
+.zone-glow::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  animation: shimmer 3s infinite;
 }
 
 .game-board {
@@ -26,4 +67,43 @@
   min-height: 6rem;
   background-color: rgba(255, 255, 255, 0.05);
   border-radius: 6px;
+  backdrop-filter: blur(10px);
+}
+
+/* Custom scrollbar for hand */
+.hand-container::-webkit-scrollbar {
+  height: 6px;
+}
+
+.hand-container::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 3px;
+}
+
+.hand-container::-webkit-scrollbar-thumb {
+  background: rgba(59, 130, 246, 0.6);
+  border-radius: 3px;
+}
+
+.hand-container::-webkit-scrollbar-thumb:hover {
+  background: rgba(59, 130, 246, 0.8);
+}
+
+/* Phase indicator styles */
+.phase-indicator {
+  background: linear-gradient(45deg, #fbbf24, #f59e0b);
+  background-size: 200% 200%;
+  animation: shimmer 2s ease-in-out infinite;
+}
+
+/* Mana crystal effect */
+.mana-crystal {
+  background: radial-gradient(circle, #3b82f6, #1e40af);
+  box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+}
+
+/* HP indicator */
+.hp-indicator {
+  background: radial-gradient(circle, #ef4444, #dc2626);
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
 }

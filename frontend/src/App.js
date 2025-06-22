@@ -8,6 +8,7 @@ import Collection from './pages/Collection';
 import Lobby from './pages/Lobby';
 import PlayGame from './pages/PlayGame';
 import Navbar from './components/Navbar';
+import ImageTest from './components/ImageTest';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -48,6 +49,7 @@ function App() {
           <Route path="/profile" element={user ? <Profile user={user} /> : <Navigate to="/login" />} />
           <Route path="/collection" element={user ? <Collection /> : <Navigate to="/login" />} />
           <Route path="/lobby" element={user ? <Lobby user={user} /> : <Navigate to="/login" />} />
+          <Route path="/test-images" element={<ImageTest />} />
           <Route path="/game/:roomId" element={user ? <PlayGame user={user} /> : <Navigate to="/login" />} />
         </Routes>
       </div>
