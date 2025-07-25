@@ -9,6 +9,10 @@ import Lobby from './pages/Lobby';
 import PlayGame from './pages/PlayGame';
 import Navbar from './components/Navbar';
 import ImageTest from './components/ImageTest';
+import Shop from './pages/Shop';
+import Decks from './pages/Decks';
+import Crafting from './pages/Crafting';
+import StarBackground from './Background/StarBackground';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -40,18 +44,26 @@ function App() {
 
   return (
     <BrowserRouter>
-      <Navbar user={user} onLogout={handleLogout} />
-      <div className="container mx-auto px-4 py-6">
-        <Routes>
-          <Route path="/" element={<Navigate to={user ? '/lobby' : '/login'} />} />
-          <Route path="/login" element={user ? <Navigate to="/lobby" /> : <Login onLogin={handleLogin} />} />
-          <Route path="/register" element={user ? <Navigate to="/lobby" /> : <Register onRegister={handleLogin} />} />
-          <Route path="/profile" element={user ? <Profile user={user} /> : <Navigate to="/login" />} />
-          <Route path="/collection" element={user ? <Collection /> : <Navigate to="/login" />} />
-          <Route path="/lobby" element={user ? <Lobby user={user} /> : <Navigate to="/login" />} />
-          <Route path="/test-images" element={<ImageTest />} />
-          <Route path="/game/:roomId" element={user ? <PlayGame user={user} /> : <Navigate to="/login" />} />
-        </Routes>
+      {/* Kosmiczne tło dla całej aplikacji */}
+      <StarBackground />
+      
+      <div className="relative z-10">
+        <Navbar user={user} onLogout={handleLogout} />
+        <div className="container mx-auto px-4 py-6">
+          <Routes>
+            <Route path="/" element={<Navigate to={user ? '/lobby' : '/login'} />} />
+            <Route path="/login" element={user ? <Navigate to="/lobby" /> : <Login onLogin={handleLogin} />} />
+            <Route path="/register" element={user ? <Navigate to="/lobby" /> : <Register onRegister={handleLogin} />} />
+            <Route path="/profile" element={user ? <Profile user={user} /> : <Navigate to="/login" />} />
+            <Route path="/collection" element={user ? <Collection /> : <Navigate to="/login" />} />
+            <Route path="/lobby" element={user ? <Lobby user={user} /> : <Navigate to="/login" />} />
+            <Route path="/test-images" element={<ImageTest />} />
+            <Route path="/game/:roomId" element={user ? <PlayGame user={user} /> : <Navigate to="/login" />} />
+            <Route path="/shop" element={user ? <Shop user={user} /> : <Navigate to="/login" />} />
+            <Route path="/decks" element={user ? <Decks /> : <Navigate to="/login" />} />
+            <Route path="/crafting" element={user ? <Crafting /> : <Navigate to="/login" />} />
+          </Routes>
+        </div>
       </div>
     </BrowserRouter>
   );

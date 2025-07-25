@@ -1,0 +1,652 @@
+/* ===== SCI-FI THEME CSS ===== */
+/* Główne kolory neonowe i kosmiczne */
+:root {
+  /* Neonowe kolory */
+  --neon-blue: #00ffff;
+  --neon-green: #00ff41;
+  --neon-pink: #ff0080;
+  --neon-purple: #8000ff;
+  --neon-orange: #ff8000;
+  --neon-yellow: #ffff00;
+  
+  /* Kolory tła kosmicznego */
+  --space-dark: #0a0a0f;
+  --space-blue: #1a1a2e;
+  --space-purple: #16213e;
+  --space-cyan: #0f3460;
+  
+  /* Kolory paneli */
+  --panel-bg: rgba(10, 25, 47, 0.9);
+  --panel-border: rgba(0, 255, 255, 0.3);
+  --panel-glow: rgba(0, 255, 255, 0.1);
+  
+  /* Efekty świetlne */
+  --glow-small: 0 0 5px;
+  --glow-medium: 0 0 10px;
+  --glow-large: 0 0 20px;
+  --glow-huge: 0 0 40px;
+}
+
+/* ===== ANIMACJE NEONOWE ===== */
+@keyframes neonPulse {
+  0%, 100% { 
+    text-shadow: 
+      0 0 5px currentColor,
+      0 0 10px currentColor,
+      0 0 15px currentColor;
+    box-shadow: 
+      0 0 5px currentColor,
+      0 0 10px currentColor,
+      0 0 15px currentColor;
+  }
+  50% { 
+    text-shadow: 
+      0 0 10px currentColor,
+      0 0 20px currentColor,
+      0 0 30px currentColor;
+    box-shadow: 
+      0 0 10px currentColor,
+      0 0 20px currentColor,
+      0 0 30px currentColor;
+  }
+}
+
+@keyframes hologramFlicker {
+  0%, 100% { opacity: 1; }
+  2% { opacity: 0.8; }
+  4% { opacity: 1; }
+  8% { opacity: 0.9; }
+  10% { opacity: 1; }
+  12% { opacity: 0.7; }
+  14% { opacity: 1; }
+}
+
+@keyframes scanLine {
+  0% { top: 0%; opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+
+@keyframes dataStream {
+  0% { transform: translateY(100vh); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateY(-100vh); opacity: 0; }
+}
+
+@keyframes circuitPulse {
+  0%, 100% { 
+    border-color: var(--neon-blue);
+    box-shadow: 
+      inset 0 0 10px rgba(0, 255, 255, 0.2),
+      0 0 10px rgba(0, 255, 255, 0.2);
+  }
+  25% { 
+    border-color: var(--neon-green);
+    box-shadow: 
+      inset 0 0 10px rgba(0, 255, 65, 0.2),
+      0 0 10px rgba(0, 255, 65, 0.2);
+  }
+  50% { 
+    border-color: var(--neon-purple);
+    box-shadow: 
+      inset 0 0 10px rgba(128, 0, 255, 0.2),
+      0 0 10px rgba(128, 0, 255, 0.2);
+  }
+  75% { 
+    border-color: var(--neon-pink);
+    box-shadow: 
+      inset 0 0 10px rgba(255, 0, 128, 0.2),
+      0 0 10px rgba(255, 0, 128, 0.2);
+  }
+}
+
+@keyframes energyFlow {
+  0% { 
+    background-position: 0% 50%;
+    opacity: 0.3;
+  }
+  50% { 
+    opacity: 0.8;
+  }
+  100% { 
+    background-position: 100% 50%;
+    opacity: 0.3;
+  }
+}
+
+/* ===== PODSTAWOWE KLASY SCI-FI ===== */
+.scifi-panel {
+  background: linear-gradient(135deg, 
+    rgba(10, 25, 47, 0.95) 0%,
+    rgba(15, 52, 96, 0.9) 50%,
+    rgba(10, 25, 47, 0.95) 100%);
+  border: 2px solid var(--panel-border);
+  border-radius: 8px;
+  box-shadow: 
+    inset 0 0 20px var(--panel-glow),
+    0 0 20px rgba(0, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+}
+
+.scifi-panel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, 
+    transparent, 
+    var(--neon-blue), 
+    transparent);
+  animation: energyFlow 3s infinite;
+}
+
+.scifi-panel::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: -100%;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, 
+    transparent, 
+    var(--neon-green), 
+    transparent);
+  animation: energyFlow 3s infinite reverse;
+}
+
+.scifi-button {
+  background: linear-gradient(45deg, 
+    rgba(0, 255, 255, 0.1),
+    rgba(0, 255, 255, 0.2),
+    rgba(0, 255, 255, 0.1));
+  border: 2px solid var(--neon-blue);
+  border-radius: 6px;
+  color: var(--neon-blue);
+  font-family: 'Orbitron', 'Courier New', monospace;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 12px 24px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  text-shadow: 0 0 10px currentColor;
+  box-shadow: 
+    inset 0 0 10px rgba(0, 255, 255, 0.1),
+    0 0 10px rgba(0, 255, 255, 0.2);
+}
+
+.scifi-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(255, 255, 255, 0.2), 
+    transparent);
+  transition: left 0.5s;
+}
+
+.scifi-button:hover {
+  color: white;
+  border-color: var(--neon-blue);
+  box-shadow: 
+    inset 0 0 20px rgba(0, 255, 255, 0.2),
+    0 0 20px rgba(0, 255, 255, 0.4),
+    0 0 40px rgba(0, 255, 255, 0.2);
+  text-shadow: 
+    0 0 5px currentColor,
+    0 0 10px currentColor,
+    0 0 15px currentColor;
+  transform: translateY(-2px);
+}
+
+.scifi-button:hover::before {
+  left: 100%;
+}
+
+.scifi-button:active {
+  transform: translateY(0);
+  box-shadow: 
+    inset 0 0 10px rgba(0, 255, 255, 0.3),
+    0 0 10px rgba(0, 255, 255, 0.3);
+}
+
+/* Warianty kolorów przycisków */
+.scifi-button.green {
+  border-color: var(--neon-green);
+  color: var(--neon-green);
+}
+
+.scifi-button.green:hover {
+  box-shadow: 
+    inset 0 0 20px rgba(0, 255, 65, 0.2),
+    0 0 20px rgba(0, 255, 65, 0.4),
+    0 0 40px rgba(0, 255, 65, 0.2);
+}
+
+.scifi-button.pink {
+  border-color: var(--neon-pink);
+  color: var(--neon-pink);
+}
+
+.scifi-button.pink:hover {
+  box-shadow: 
+    inset 0 0 20px rgba(255, 0, 128, 0.2),
+    0 0 20px rgba(255, 0, 128, 0.4),
+    0 0 40px rgba(255, 0, 128, 0.2);
+}
+
+.scifi-button.purple {
+  border-color: var(--neon-purple);
+  color: var(--neon-purple);
+}
+
+.scifi-button.purple:hover {
+  box-shadow: 
+    inset 0 0 20px rgba(128, 0, 255, 0.2),
+    0 0 20px rgba(128, 0, 255, 0.4),
+    0 0 40px rgba(128, 0, 255, 0.2);
+}
+
+.scifi-button.orange {
+  border-color: var(--neon-orange);
+  color: var(--neon-orange);
+}
+
+.scifi-button.orange:hover {
+  box-shadow: 
+    inset 0 0 20px rgba(255, 128, 0, 0.2),
+    0 0 20px rgba(255, 128, 0, 0.4),
+    0 0 40px rgba(255, 128, 0, 0.2);
+}
+
+/* ===== HOLOGRAFICZNE KARTY ===== */
+.holographic-card {
+  background: linear-gradient(135deg, 
+    rgba(0, 255, 255, 0.05) 0%,
+    rgba(128, 0, 255, 0.05) 50%,
+    rgba(255, 0, 128, 0.05) 100%);
+  border: 2px solid transparent;
+  border-image: linear-gradient(45deg, 
+    var(--neon-blue), 
+    var(--neon-purple), 
+    var(--neon-pink)) 1;
+  border-radius: 8px;
+  box-shadow: 
+    0 0 10px rgba(0, 255, 255, 0.3),
+    inset 0 0 10px rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  animation: hologramFlicker 5s infinite;
+}
+
+.holographic-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(
+    transparent,
+    rgba(0, 255, 255, 0.1),
+    transparent,
+    rgba(255, 0, 128, 0.1),
+    transparent,
+    rgba(128, 0, 255, 0.1),
+    transparent
+  );
+  animation: spin 4s linear infinite;
+  pointer-events: none;
+}
+
+.holographic-card:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 
+    0 0 20px rgba(0, 255, 255, 0.5),
+    0 0 40px rgba(128, 0, 255, 0.3),
+    inset 0 0 20px rgba(255, 255, 255, 0.1);
+  animation: none;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ===== MODULARNE RAMKI ===== */
+.modular-frame {
+  position: relative;
+  padding: 20px;
+  background: var(--panel-bg);
+  border: none;
+  border-radius: 0;
+  clip-path: polygon(
+    0 10px, 10px 0, 
+    calc(100% - 10px) 0, 100% 10px,
+    100% calc(100% - 10px), calc(100% - 10px) 100%,
+    10px 100%, 0 calc(100% - 10px)
+  );
+}
+
+.modular-frame::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, 
+    var(--neon-blue), 
+    var(--neon-green), 
+    var(--neon-purple), 
+    var(--neon-pink));
+  clip-path: polygon(
+    0 10px, 10px 0, 
+    calc(100% - 10px) 0, 100% 10px,
+    100% calc(100% - 10px), calc(100% - 10px) 100%,
+    10px 100%, 0 calc(100% - 10px)
+  );
+  z-index: -1;
+  animation: circuitPulse 4s infinite;
+}
+
+/* Narożniki technologiczne */
+.tech-corners {
+  position: relative;
+}
+
+.tech-corners::before,
+.tech-corners::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--neon-blue);
+}
+
+.tech-corners::before {
+  top: 0;
+  left: 0;
+  border-right: none;
+  border-bottom: none;
+  border-top-left-radius: 4px;
+}
+
+.tech-corners::after {
+  bottom: 0;
+  right: 0;
+  border-left: none;
+  border-top: none;
+  border-bottom-right-radius: 4px;
+}
+
+/* ===== LINIE SKANUJĄCE ===== */
+.scan-lines {
+  position: relative;
+  overflow: hidden;
+}
+
+.scan-lines::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, 
+    transparent, 
+    var(--neon-green), 
+    transparent);
+  animation: scanLine 2s infinite;
+  z-index: 10;
+}
+
+/* ===== EFEKTY DANYCH ===== */
+.data-stream {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.data-stream::before {
+  content: '01001001 01001110 01010110 01000001 01001110 01000101 01010010';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  color: var(--neon-green);
+  font-family: 'Courier New', monospace;
+  font-size: 8px;
+  opacity: 0.3;
+  animation: dataStream 8s infinite linear;
+  white-space: nowrap;
+}
+
+/* ===== NAWIGACJA KOSMICZNA ===== */
+.space-nav {
+  background: linear-gradient(135deg, 
+    rgba(10, 25, 47, 0.95) 0%,
+    rgba(15, 52, 96, 0.9) 100%);
+  border-bottom: 3px solid var(--neon-blue);
+  box-shadow: 
+    0 0 20px rgba(0, 255, 255, 0.2),
+    inset 0 -3px 10px rgba(0, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+.space-nav-item {
+  color: rgba(255, 255, 255, 0.7);
+  text-transform: uppercase;
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 500;
+  letter-spacing: 1px;
+  padding: 8px 16px;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.space-nav-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(0, 255, 255, 0.2), 
+    transparent);
+  transition: left 0.3s;
+}
+
+.space-nav-item:hover {
+  color: var(--neon-blue);
+  text-shadow: 0 0 10px currentColor;
+  box-shadow: 
+    inset 0 0 10px rgba(0, 255, 255, 0.1),
+    0 0 10px rgba(0, 255, 255, 0.2);
+}
+
+.space-nav-item:hover::before {
+  left: 100%;
+}
+
+/* ===== TERMINAL DOSTĘPOWY ===== */
+.access-terminal {
+  background: radial-gradient(circle at center, 
+    rgba(0, 20, 0, 0.9) 0%,
+    rgba(0, 0, 0, 0.95) 100%);
+  border: 2px solid var(--neon-green);
+  border-radius: 8px;
+  color: var(--neon-green);
+  font-family: 'Courier New', monospace;
+  box-shadow: 
+    0 0 30px rgba(0, 255, 65, 0.3),
+    inset 0 0 30px rgba(0, 255, 65, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.access-terminal::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 255, 65, 0.05) 2px,
+    rgba(0, 255, 65, 0.05) 4px
+  );
+  pointer-events: none;
+}
+
+.terminal-input {
+  background: rgba(0, 20, 0, 0.5);
+  border: 1px solid var(--neon-green);
+  border-radius: 4px;
+  color: var(--neon-green);
+  font-family: 'Courier New', monospace;
+  padding: 10px;
+  box-shadow: 
+    inset 0 0 10px rgba(0, 255, 65, 0.2),
+    0 0 5px rgba(0, 255, 65, 0.3);
+}
+
+.terminal-input:focus {
+  outline: none;
+  box-shadow: 
+    inset 0 0 15px rgba(0, 255, 65, 0.3),
+    0 0 15px rgba(0, 255, 65, 0.5);
+  text-shadow: 0 0 5px currentColor;
+}
+
+/* ===== PLANSZA GRY KOSMICZNA ===== */
+.cosmic-game-board {
+  background: radial-gradient(ellipse at center, 
+    rgba(15, 52, 96, 0.8) 0%,
+    rgba(10, 25, 47, 0.9) 50%,
+    rgba(0, 0, 0, 0.95) 100%);
+  border: 3px solid transparent;
+  border-image: linear-gradient(45deg, 
+    var(--neon-blue), 
+    var(--neon-purple), 
+    var(--neon-pink), 
+    var(--neon-green)) 1;
+  border-radius: 12px;
+  box-shadow: 
+    0 0 40px rgba(0, 255, 255, 0.3),
+    inset 0 0 40px rgba(0, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.cosmic-game-board::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 30%, rgba(0, 255, 255, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(255, 0, 128, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 50% 50%, rgba(128, 0, 255, 0.05) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* Strefy gry */
+.game-zone {
+  background: rgba(0, 255, 255, 0.05);
+  border: 2px dashed rgba(0, 255, 255, 0.3);
+  border-radius: 8px;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.game-zone.active {
+  background: rgba(0, 255, 65, 0.1);
+  border-color: var(--neon-green);
+  box-shadow: 
+    0 0 20px rgba(0, 255, 65, 0.3),
+    inset 0 0 20px rgba(0, 255, 65, 0.1);
+}
+
+.game-zone.invalid {
+  background: rgba(255, 0, 0, 0.1);
+  border-color: #ff0040;
+  box-shadow: 
+    0 0 20px rgba(255, 0, 64, 0.3),
+    inset 0 0 20px rgba(255, 0, 64, 0.1);
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 768px) {
+  .scifi-button {
+    padding: 8px 16px;
+    font-size: 14px;
+  }
+  
+  .modular-frame {
+    padding: 15px;
+  }
+  
+  .tech-corners::before,
+  .tech-corners::after {
+    width: 15px;
+    height: 15px;
+  }
+}
+
+/* ===== DODATKOWE EFEKTY ===== */
+.energy-border {
+  position: relative;
+  overflow: hidden;
+}
+
+.energy-border::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: 2px solid transparent;
+  border-radius: inherit;
+  background: linear-gradient(45deg, 
+    var(--neon-blue), 
+    var(--neon-green), 
+    var(--neon-purple), 
+    var(--neon-pink)) border-box;
+  mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  animation: energyFlow 2s infinite;
+}
+
+.pulse-glow {
+  animation: neonPulse 2s infinite;
+}
+
+.flicker-effect {
+  animation: hologramFlicker 3s infinite;
+} 

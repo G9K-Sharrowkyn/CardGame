@@ -40,7 +40,33 @@ export const register = async (req, res) => {
     email,
     password: hashed,
     points: 0,
-    collection: []
+    collection: [], // start bez kart
+    packs: { normal: 8, premium: 0 },
+    currency: { gold: 1000, premium: 0 },
+    decks: [],
+    // System XP i levelowania
+    xp: 0,
+    level: 1,
+    // Statystyki użytkownika
+    stats: {
+      gamesPlayed: 0,
+      gamesWon: 0,
+      gamesLost: 0,
+      cardsPlayed: 0,
+      damageDealt: 0,
+      unitsDeployed: 0,
+      commandsPlayed: 0
+    },
+    // Osiągnięcia
+    achievements: [],
+    // Ranking
+    rank: {
+      tier: 'Bronze',
+      division: 9,
+      points: 0
+    },
+    // Materiały do craftingu
+    cardFragments: 0
   };
 
   users.push(newUser);

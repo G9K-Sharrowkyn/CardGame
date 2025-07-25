@@ -21,6 +21,9 @@ const GameInterface = ({ user, roomId, initialDeck }) => {
   const [hasPlayedCommandCard, setHasPlayedCommandCard] = useState(false);
   const [hasDrawnCard, setHasDrawnCard] = useState(false);
   const [shouldAnimateButton, setShouldAnimateButton] = useState(false);
+  const [cardAnimations, setCardAnimations] = useState({});
+  const [draggedCard, setDraggedCard] = useState(null);
+  const [dropZoneActive, setDropZoneActive] = useState('');
 
   useEffect(() => {
     const initialHand = drawCards(deck, 7);
@@ -65,6 +68,20 @@ const GameInterface = ({ user, roomId, initialDeck }) => {
   const drawCard = () => {
     if (currentPhase !== Phases.COMMAND || hasDrawnCard || deck.length === 0) return;
     const { hand: newCards, deck: newDeck } = drawCards(deck, 1);
+    
+    // Animuj nową kartę
+    if (newCards.length > 0) {
+      const cardKey = `${newCards[0].name}_${Date.now()}`;
+      setCardAnimations(prev => ({ ...prev, [cardKey]: 'draw' }));
+      setTimeout(() => {
+        setCardAnimations(prev => {
+          const updated = { ...prev };
+          delete updated[cardKey];
+          return updated;
+        });
+      }, 600);
+    }
+    
     setHand([...hand, ...newCards]);
     setDeck(newDeck);
     setHasDrawnCard(true);
@@ -105,169 +122,330 @@ const GameInterface = ({ user, roomId, initialDeck }) => {
     }
   };
 
+  // Funkcje drag and drop
+  const handleCardDragStart = (card, e) => {
+    setDraggedCard(card);
+  };
+
+  const handleCardDragEnd = (card, e) => {
+    setDraggedCard(null);
+    setDropZoneActive('');
+  };
+
+  const handleDragOver = (e, zone) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+    setDropZoneActive(zone);
+  };
+
+  const handleDragLeave = (e) => {
+    setDropZoneActive('');
+  };
+
+  const handleDrop = (e, zone) => {
+    e.preventDefault();
+    setDropZoneActive('');
+    
+    if (!draggedCard) return;
+    
+    const details = cardsSpecifics.find(c => c.name === draggedCard.name);
+    
+    if (zone === 'command-zone' && gameMechanics.getCurrentPhase() === Phases.COMMAND) {
+      if (hasPlayedCommandCard) return;
+      
+      // Animuj kartę
+      const cardKey = `${draggedCard.name}_${Date.now()}`;
+      setCardAnimations(prev => ({ ...prev, [cardKey]: 'deploy' }));
+      
+      setPlayerCommands([...playerCommands, draggedCard]);
+      setCommandPoints(p => p + (details.type.includes('Shipyard') ? 2 : 1));
+      setHand(hand.filter(c => c !== draggedCard));
+      setSelectedCard(null);
+      setHasPlayedCommandCard(true);
+      setShouldAnimateButton(true);
+      socket.emit('playMove', { roomId, move: { playedCommand: draggedCard, player: user.id } });
+      
+    } else if (zone === 'unit-zone' && gameMechanics.getCurrentPhase() === Phases.DEPLOYMENT) {
+      if (details.commandCost > commandPoints) return;
+      
+      // Animuj kartę
+      const cardKey = `${draggedCard.name}_${Date.now()}`;
+      setCardAnimations(prev => ({ ...prev, [cardKey]: 'deploy' }));
+      
+      setPlayerUnits([...playerUnits, draggedCard]);
+      setCommandPoints(p => p - details.commandCost);
+      setHand(hand.filter(c => c !== draggedCard));
+      setSelectedCard(null);
+      socket.emit('playMove', { roomId, move: { playedUnit: draggedCard, player: user.id } });
+    }
+    
+    setDraggedCard(null);
+  };
+
+  const getDropZoneClass = (zone) => {
+    const baseClass = 'drop-zone';
+    if (dropZoneActive === zone) {
+      if (!draggedCard) return `${baseClass} active`;
+      
+      const details = cardsSpecifics.find(c => c.name === draggedCard.name);
+      
+      if (zone === 'command-zone' && gameMechanics.getCurrentPhase() === Phases.COMMAND && !hasPlayedCommandCard) {
+        return `${baseClass} active valid`;
+      } else if (zone === 'unit-zone' && gameMechanics.getCurrentPhase() === Phases.DEPLOYMENT && details.commandCost <= commandPoints) {
+        return `${baseClass} active valid`;
+      } else {
+        return `${baseClass} active invalid`;
+      }
+    }
+    return baseClass;
+  };
+
 
 
   return (
-    <div className="h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 flex flex-col overflow-hidden">
-      {/* Top HUD - Opponent Info */}
-      <div className="flex justify-between items-center px-6 py-3 bg-gradient-to-r from-slate-800 to-slate-700 border-b border-slate-600 shadow-lg">
-        <div className="flex items-center space-x-4">
-          <div className="flex items-center space-x-2">
-            <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
-            <span className="text-red-400 font-bold text-lg">{opponentHP} HP</span>
+    <div className="cosmic-game-board h-screen flex flex-col overflow-hidden relative">
+      {/* Efekty tła kosmicznego */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-1/4 left-1/6 w-1 h-1 bg-cyan-400 rounded-full pulse-glow"></div>
+        <div className="absolute top-3/4 right-1/4 w-1.5 h-1.5 bg-purple-400 rounded-full pulse-glow" style={{animationDelay: '2s'}}></div>
+        <div className="absolute bottom-1/4 left-3/4 w-1 h-1 bg-pink-400 rounded-full pulse-glow" style={{animationDelay: '4s'}}></div>
+      </div>
+
+      {/* Top Command Console - Opponent Status */}
+      <div className="scifi-panel m-2 p-4 tech-corners">
+        <div className="flex justify-between items-center">
+          {/* Opponent Status */}
+          <div className="flex items-center space-x-4">
+            <div className="w-12 h-12 bg-gradient-to-br from-red-400 to-red-600 rounded-full flex items-center justify-center pulse-glow">
+              <span className="text-white font-bold text-xl">👾</span>
+            </div>
+            <div>
+              <div className="text-red-400 font-mono text-lg font-bold">
+                ENEMY COMMANDER
+              </div>
+              <div className="flex items-center space-x-4">
+                <div className="text-red-300 font-mono text-sm">
+                  HULL: <span className="text-red-400 font-bold">{opponentHP}</span>
+                </div>
+                <div className="text-gray-400 font-mono text-sm">
+                  FLEET: {deck.length}
+                </div>
+              </div>
+            </div>
           </div>
-          <div className="text-slate-400 text-sm">Opponent</div>
-        </div>
-        
-        <div className="text-center">
-          <div className="text-yellow-400 font-bold text-xl mb-1">{currentPhase}</div>
-          <div className="text-slate-400 text-sm">Current Phase</div>
-        </div>
-        
-        <div className="flex items-center space-x-4">
-          <div className="text-slate-400 text-sm">Deck: {deck.length}</div>
+          
+          {/* Phase Indicator */}
+          <div className="modular-frame px-6 py-3 text-center">
+            <div className="text-yellow-400 font-mono text-xl font-bold flicker-effect">
+              {currentPhase}
+            </div>
+            <div className="text-cyan-400 font-mono text-xs">
+              [CURRENT PHASE]
+            </div>
+          </div>
+          
+          {/* Phase Control */}
           <button 
-            className={`px-6 py-2 rounded-lg font-bold transition-all duration-300 ${
-              shouldAnimateButton 
-                ? 'bg-gradient-to-r from-yellow-500 to-orange-500 text-black animate-pulse shadow-lg' 
-                : 'bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-500 hover:to-purple-500'
-            } shadow-lg hover:shadow-xl transform hover:scale-105`}
+            className={`scifi-button ${shouldAnimateButton ? 'pulse-glow' : ''} text-lg px-6 py-3`}
             onClick={endPhase}
           >
-            {currentPhase === Phases.BATTLE ? 'End Turn' : 'End Phase'}
+            {currentPhase === Phases.BATTLE ? 'END TURN' : 'NEXT PHASE'}
           </button>
         </div>
       </div>
 
-      {/* Game Board */}
-      <div className="flex-1 flex flex-col relative">
-        {/* Opponent Zones */}
-        <div className="flex-1 p-4 space-y-3">
-          {/* Opponent Command Zone */}
-          <div className="h-24 bg-gradient-to-r from-red-900/30 to-red-800/30 rounded-xl border-2 border-red-700/50 shadow-inner relative">
-            <div className="absolute top-2 left-4 text-red-400 font-bold text-sm">OPPONENT COMMAND ZONE</div>
+      {/* Main Battle Grid */}
+      <div className="flex-1 flex flex-col relative p-2">
+        {/* Enemy Combat Zones */}
+        <div className="flex-1 space-y-3">
+          {/* Enemy Command Zone */}
+          <div className="game-zone h-24 relative energy-border" style={{borderColor: 'var(--neon-pink)'}}>
+            <div className="absolute top-2 left-4 text-pink-400 font-mono text-sm font-bold">
+              [ENEMY COMMAND DECK]
+            </div>
             <div className="flex items-center justify-center h-full space-x-2 pt-6">
               {opponentCommands.map((card, idx) => (
-                <Card key={idx} card={card} size="small" showStats />
+                <div key={idx} className="holographic-card">
+                  <Card card={card} size="small" showStats />
+                </div>
               ))}
               {opponentCommands.length === 0 && (
-                <div className="text-red-400/50 text-sm italic">No command cards</div>
+                <div className="text-pink-400/50 font-mono text-sm italic">
+                  [NO COMMAND SHIPS DEPLOYED]
+                </div>
               )}
             </div>
+            <div className="scan-lines"></div>
           </div>
           
-          {/* Opponent Unit Zone */}
-          <div className="flex-1 bg-gradient-to-r from-red-900/20 to-red-800/20 rounded-xl border-2 border-red-600/50 shadow-inner relative min-h-32">
-            <div className="absolute top-2 left-4 text-red-400 font-bold text-sm">OPPONENT UNIT ZONE</div>
+          {/* Enemy Unit Zone */}
+          <div className="game-zone flex-1 relative energy-border min-h-32" style={{borderColor: 'var(--neon-pink)'}}>
+            <div className="absolute top-2 left-4 text-pink-400 font-mono text-sm font-bold">
+              [ENEMY BATTLE FLEET]
+            </div>
             <div className="flex items-center justify-center h-full space-x-2 pt-8">
               {opponentUnits.map((card, idx) => (
-                <Card key={idx} card={card} size="normal" showStats />
+                <div key={idx} className="holographic-card">
+                  <Card card={card} size="normal" showStats />
+                </div>
               ))}
               {opponentUnits.length === 0 && (
-                <div className="text-red-400/50 text-lg italic">No units deployed</div>
+                <div className="text-pink-400/50 font-mono text-lg italic">
+                  [NO BATTLE SHIPS DETECTED]
+                </div>
               )}
             </div>
+            <div className="data-stream"></div>
           </div>
         </div>
 
-        {/* Center Divider */}
-        <div className="h-1 bg-gradient-to-r from-transparent via-yellow-500 to-transparent shadow-lg"></div>
+        {/* Battle Line Separator */}
+        <div className="h-2 relative my-2">
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-yellow-400 to-transparent opacity-60"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-cyan-400 to-transparent opacity-40 animate-pulse"></div>
+          <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 text-yellow-400 font-mono text-xs">
+            [COMBAT ZONE]
+          </div>
+        </div>
 
-        {/* Player Zones */}
-        <div className="flex-1 p-4 space-y-3">
+        {/* Player Combat Zones */}
+        <div className="flex-1 space-y-3">
           {/* Player Unit Zone */}
-          <div className="flex-1 bg-gradient-to-r from-blue-900/20 to-blue-800/20 rounded-xl border-2 border-blue-600/50 shadow-inner relative min-h-32 cursor-pointer hover:border-blue-500/70 transition-colors" 
-               onClick={() => deploy('unit-zone')}>
-            <div className="absolute top-2 left-4 text-blue-400 font-bold text-sm">YOUR UNIT ZONE</div>
+          <div 
+            className={`game-zone flex-1 relative energy-border min-h-32 cursor-pointer transition-all duration-300 ${getDropZoneClass('unit-zone')}`}
+            style={{borderColor: 'var(--neon-cyan)'}}
+            onClick={() => deploy('unit-zone')}
+            onDragOver={(e) => handleDragOver(e, 'unit-zone')}
+            onDragLeave={handleDragLeave}
+            onDrop={(e) => handleDrop(e, 'unit-zone')}
+          >
+            <div className="absolute top-2 left-4 text-cyan-400 font-mono text-sm font-bold">
+              [YOUR BATTLE FLEET]
+            </div>
             <div className="flex items-center justify-center h-full space-x-2 pt-8">
               {playerUnits.map((card, idx) => (
-                <Card 
-                  key={idx} 
-                  card={card} 
-                  size="normal" 
-                  showStats 
-                  isSelected={selectedCard === card}
-                  onClick={() => selectCard(card)}
-                />
+                <div key={idx} className="holographic-card">
+                  <Card 
+                    card={card} 
+                    size="normal" 
+                    showStats 
+                    isSelected={selectedCard === card}
+                    onClick={() => selectCard(card)}
+                    animationState={cardAnimations[`${card.name}_${idx}`]}
+                  />
+                </div>
               ))}
               {playerUnits.length === 0 && (
-                <div className="text-blue-400/50 text-lg italic">Deploy units here</div>
+                <div className="text-cyan-400/50 font-mono text-lg italic">
+                  [DEPLOY BATTLE SHIPS HERE]
+                </div>
               )}
             </div>
+            <div className="data-stream"></div>
           </div>
           
           {/* Player Command Zone */}
-          <div className="h-24 bg-gradient-to-r from-blue-900/30 to-blue-800/30 rounded-xl border-2 border-blue-700/50 shadow-inner relative cursor-pointer hover:border-blue-500/70 transition-colors"
-               onClick={() => deploy('command-zone')}>
-            <div className="absolute top-2 left-4 text-blue-400 font-bold text-sm">YOUR COMMAND ZONE</div>
+          <div 
+            className={`game-zone h-24 relative energy-border cursor-pointer transition-all duration-300 ${getDropZoneClass('command-zone')}`}
+            style={{borderColor: 'var(--neon-cyan)'}}
+            onClick={() => deploy('command-zone')}
+            onDragOver={(e) => handleDragOver(e, 'command-zone')}
+            onDragLeave={handleDragLeave}
+            onDrop={(e) => handleDrop(e, 'command-zone')}
+          >
+            <div className="absolute top-2 left-4 text-cyan-400 font-mono text-sm font-bold">
+              [YOUR COMMAND DECK]
+            </div>
             <div className="flex items-center justify-center h-full space-x-2 pt-6">
               {playerCommands.map((card, idx) => (
-                <Card 
-                  key={idx} 
-                  card={card} 
-                  size="small" 
-                  showStats
-                  isSelected={selectedCard === card}
-                  onClick={() => selectCard(card)}
-                />
+                <div key={idx} className="holographic-card">
+                  <Card 
+                    card={card} 
+                    size="small" 
+                    showStats
+                    isSelected={selectedCard === card}
+                    onClick={() => selectCard(card)}
+                    animationState={cardAnimations[`${card.name}_${idx}`]}
+                  />
+                </div>
               ))}
               {playerCommands.length === 0 && (
-                <div className="text-blue-400/50 text-sm italic">Play command cards here</div>
+                <div className="text-cyan-400/50 font-mono text-sm italic">
+                  [DEPLOY COMMAND SHIPS HERE]
+                </div>
               )}
             </div>
+            <div className="scan-lines"></div>
           </div>
         </div>
       </div>
 
-      {/* Bottom HUD - Player Info & Hand */}
-      <div className="bg-gradient-to-r from-slate-800 to-slate-700 border-t border-slate-600 shadow-lg">
-        {/* Player Stats */}
-        <div className="flex justify-between items-center px-6 py-3 border-b border-slate-600/50">
+      {/* Bottom Command Console - Player Status & Fleet */}
+      <div className="scifi-panel m-2 p-4 tech-corners">
+        {/* Player Status Bar */}
+        <div className="flex justify-between items-center mb-4 pb-3 border-b border-cyan-400/30">
           <div className="flex items-center space-x-6">
-            <div className="flex items-center space-x-2">
-              <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-              <span className="text-green-400 font-bold text-lg">{playerHP} HP</span>
+            <div className="w-12 h-12 bg-gradient-to-br from-cyan-400 to-blue-500 rounded-full flex items-center justify-center pulse-glow">
+              <span className="text-black font-bold text-xl">👤</span>
             </div>
-            <div className="flex items-center space-x-2">
-              <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
-              <span className="text-blue-400 font-bold text-lg">{commandPoints} Mana</span>
+            <div>
+              <div className="text-cyan-400 font-mono text-lg font-bold">
+                COMMANDER {user.username.toUpperCase()}
+              </div>
+              <div className="flex items-center space-x-6">
+                <div className="text-green-400 font-mono text-sm">
+                  HULL: <span className="text-green-300 font-bold">{playerHP}</span>
+                </div>
+                <div className="text-blue-400 font-mono text-sm">
+                  ENERGY: <span className="text-blue-300 font-bold">{commandPoints}</span>
+                </div>
+              </div>
             </div>
           </div>
           
-          <div className="text-slate-400 font-bold">{user.username}</div>
-          
           <button 
-            className={`px-4 py-2 rounded-lg font-bold transition-all duration-300 ${
-              currentPhase === Phases.COMMAND && !hasDrawnCard
-                ? 'bg-gradient-to-r from-yellow-500 to-orange-500 text-black animate-pulse shadow-lg' 
-                : 'bg-gradient-to-r from-green-600 to-teal-600 text-white hover:from-green-500 hover:to-teal-500'
-            } shadow-lg hover:shadow-xl transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed`}
+            className={`scifi-button green ${currentPhase === Phases.COMMAND && !hasDrawnCard ? 'pulse-glow' : ''} px-4 py-2`}
             onClick={drawCard}
             disabled={currentPhase !== Phases.COMMAND || hasDrawnCard || deck.length === 0}
           >
-            Draw Card ({deck.length})
+            DRAW CARD ({deck.length})
           </button>
         </div>
         
-        {/* Hand */}
-        <div className="p-4">
-          <div className="flex justify-center space-x-2 overflow-x-auto pb-2 hand-container">
+        {/* Fleet Hand */}
+        <div className="relative">
+          <div className="text-center mb-3">
+            <div className="text-cyan-400 font-mono text-sm font-bold">
+              [FLEET COMMAND INTERFACE]
+            </div>
+          </div>
+          <div className="flex justify-center space-x-3 overflow-x-auto pb-2 hand-container">
             {hand.map((card, idx) => (
-              <Card 
-                key={idx} 
-                card={card} 
-                size="large" 
-                showStats 
-                isSelected={selectedCard === card}
-                onClick={() => selectCard(card)}
-              />
+              <div key={idx} className="holographic-card">
+                <Card 
+                  card={card} 
+                  size="large" 
+                  showStats 
+                  isSelected={selectedCard === card}
+                  onClick={() => selectCard(card)}
+                  draggable={true}
+                  onDragStart={handleCardDragStart}
+                  onDragEnd={handleCardDragEnd}
+                  animationState={cardAnimations[`${card.name}_${idx}`]}
+                />
+              </div>
             ))}
             {hand.length === 0 && (
-              <div className="text-slate-400 text-lg italic py-8">Your hand is empty</div>
+              <div className="text-cyan-400/50 font-mono text-lg italic py-8">
+                [NO SHIPS IN COMMAND QUEUE]
+              </div>
             )}
           </div>
         </div>
       </div>
+
+      {/* Global Scan Effect */}
+      <div className="scan-lines"></div>
     </div>
   );
 };

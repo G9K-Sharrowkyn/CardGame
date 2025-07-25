@@ -5,11 +5,16 @@
     "email": "invinciblecharles@wp.pl",
     "password": "$2b$10$J8Zsw9A.EukNBQjK9Gk2W.bSgSAKhcnhR6beReKvItHem0ZSkx3Gu",
     "points": 0,
-    "collection": [
-      "Ahorhee_Laron_the_explorer",
-      "Aelgallan_Flamers",
-      "Aberran_Firenaute"
-    ]
+    "collection": [],
+    "packs": {
+      "normal": 8,
+      "premium": 0
+    },
+    "currency": {
+      "gold": 1000,
+      "premium": 0
+    },
+    "decks": []
   },
   {
     "id": "be48a648-a06e-466e-9cdc-e3fd27f2bbdf",
@@ -17,7 +22,16 @@
     "email": "test@test.com",
     "password": "$2b$10$20Zric5AiESCQduqKk0MEu8ky.4cnSBRTtj8RbjJdLWoHGYTrrooG",
     "points": 0,
-    "collection": []
+    "collection": [],
+    "packs": {
+      "normal": 8,
+      "premium": 0
+    },
+    "currency": {
+      "gold": 1000,
+      "premium": 0
+    },
+    "decks": []
   },
   {
     "id": "53b985af-b5f3-4616-9d01-96c328b5d90d",
@@ -25,6 +39,138 @@
     "email": "aaaaa@wp.pl",
     "password": "$2b$10$.yLZhcVT5fXAPeUSY5YNXepATdRiZ2XrBWj899kVEBgCx8cOboKNW",
     "points": 0,
-    "collection": []
+    "collection": [],
+    "packs": {
+      "normal": 8,
+      "premium": 0
+    },
+    "currency": {
+      "gold": 1000,
+      "premium": 0
+    },
+    "decks": []
+  },
+  {
+    "id": "0acf9ba6-da92-40bf-95f0-bfcf034ddaf6",
+    "username": "testtest",
+    "email": "testtest@test.pl",
+    "password": "$2b$10$kBDYJJtxlUKgKQtdVBQdWOm3jlui03WPNMThoRHJrXLyVooj4gHKO",
+    "points": 0,
+    "collection": [
+      "Terran_Dockyard",
+      "Terran_Shipyard",
+      "Yazzilan_Dockyard",
+      "Yazzilan_Industry_Zone",
+      "Black_Watch_Sharpshooter",
+      "Ahorhee_Laron_the_explorer",
+      "Black_Watch_Tactician",
+      "Arquariaq_the_Hired_Gun",
+      "Syalis_Shipyard",
+      "Sallen_Industry_Zone",
+      "Black_Watch_Shipyard",
+      "Aneankae_Lady_of_War",
+      "Ekken_Shipyard",
+      "Uughtar_Helbrute",
+      "Lusander_Kray,_the_Engineer_Prophecy",
+      "Black_Watch_Duelist",
+      "Arhvan_the_Prophet",
+      "Uerthelan_All-Eater",
+      "Black_Watch_Killer-Droid",
+      "Wernano_Sharpshooter",
+      "Kessima_Kalsen,_The_Thraid_Assassin",
+      "Black_Watch_Recruit",
+      "Wernano_Univeral_Soldier",
+      "Wernano_Miners",
+      "Black_Watch_RedHawk",
+      "Orion Vex,_the_Versinar_King",
+      "Daedalus_VIII",
+      "Black_Watch_BattleMech",
+      "Aelgallan_Flamers",
+      "Orynthian_Shipyard",
+      "Artakan_Fire_Squad",
+      "Gladius,_the_Exterminators",
+      "Cagliari_Corp._Enforcer",
+      "Threx'Qalim,_the_Metal_Ripper",
+      "Wernano_Artitank",
+      "Black_Watch_Priests",
+      "Egalis,_the_Hero_of_Ganavar",
+      "Artakan_SAGR_Unit",
+      "Black_Watch_Overseer",
+      "Hozon_Raakri_Glory_Unit",
+      "Anokemi_the_Giant",
+      "Black_Watch_Officer",
+      "Black_Watch_Legionist",
+      "Aberran_Firenaute",
+      "Rikvilu,_the_Adventurer",
+      "Ganimaraci_Star_Forge",
+      "Black_Watch_Infernal_Tank",
+      "Aoruth_Walker",
+      "Arn_Wettid_Clones",
+      "Droid_Enforce_Team",
+      "Dorian_Pax,_the_Versinar_Prince",
+      "Rallak_Shipyard",
+      "Cotu_Kodvor,_the_Lost_Traveller",
+      "Nova_Industry_Zone",
+      "Corim_Saash,_the_Ekken_Loyalist",
+      "Sallen_Shipyard",
+      "Lakuvall Shipyard",
+      "Lirian_Exo-Mech"
+    ],
+    "packs": {
+      "normal": 0,
+      "premium": 0
+    },
+    "currency": {
+      "gold": 350,
+      "premium": 0
+    },
+    "decks": [
+      {
+        "name": "wqe",
+        "cards": [
+          "Yazzilan_Industry_Zone",
+          "Yazzilan_Dockyard",
+          "Ekken_Shipyard",
+          "Lusander_Kray,_the_Engineer_Prophecy",
+          "Uerthelan_All-Eater",
+          "Wernano_Sharpshooter",
+          "Black_Watch_Killer-Droid",
+          "Arhvan_the_Prophet",
+          "Ahorhee_Laron_the_explorer",
+          "Black_Watch_Sharpshooter",
+          "Terran_Shipyard",
+          "Black_Watch_Tactician",
+          "Arquariaq_the_Hired_Gun",
+          "Terran_Dockyard",
+          "Black_Watch_Shipyard",
+          "Aneankae_Lady_of_War",
+          "Uughtar_Helbrute",
+          "Black_Watch_Duelist",
+          "Kessima_Kalsen,_The_Thraid_Assassin",
+          "Sallen_Industry_Zone",
+          "Black_Watch_Recruit",
+          "Wernano_Univeral_Soldier",
+          "Wernano_Miners",
+          "Black_Watch_RedHawk",
+          "Orion Vex,_the_Versinar_King",
+          "Daedalus_VIII",
+          "Black_Watch_BattleMech",
+          "Aelgallan_Flamers",
+          "Orynthian_Shipyard",
+          "Artakan_Fire_Squad",
+          "Gladius,_the_Exterminators",
+          "Cagliari_Corp._Enforcer",
+          "Threx'Qalim,_the_Metal_Ripper",
+          "Syalis_Shipyard",
+          "Nova_Industry_Zone",
+          "Corim_Saash,_the_Ekken_Loyalist",
+          "Artakan_SAGR_Unit",
+          "Black_Watch_Overseer",
+          "Hozon_Raakri_Glory_Unit",
+          "Arn_Wettid_Clones"
+        ]
+      }
+    ],
+    "activeDeck": "wqe"
   }
 ]
