@@ -559,3 +559,32 @@ export const getAchievements = async (req, res) => {
   const allAchievements = Object.values(ACHIEVEMENTS);
   res.json(allAchievements);
 };
+
+export const getDecks = async (req, res) => {
+  const users = await loadUsers();
+  const user = users.find(u => u.id === req.user.id);
+  if (!user) {
+    return res.status(404).json({ message: 'Użytkownik nie znaleziony' });
+  }
+  res.json(user.decks || []);
+};
+
+export const getActiveDeck = async (req, res) => {
+    const users = await loadUsers();
+    const user = users.find(u => u.id === req.user.id);
+    if (!user) {
+        return res.status(404).json({ message: 'Użytkownik nie znaleziony' });
+    }
+    if (!user.activeDeck) {
+        return res.json({ activeDeck: null });
+    }
+    const deck = user.decks.find(d => d.name === user.activeDeck);
+    if (!deck) {
+        // Active deck is set but not found, maybe it was deleted.
+        // Let's unset it for hygiene.
+        user.activeDeck = null;
+        await saveUsers(users);
+        return res.json({ activeDeck: null });
+    }
+    res.json({ activeDeck: deck });
+};

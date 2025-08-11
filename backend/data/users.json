@@ -172,5 +172,188 @@
       }
     ],
     "activeDeck": "wqe"
+  },
+  {
+    "id": "b5ea73a8-36d5-442a-a1e1-478204a6b1b1",
+    "username": "tester_1754947566005",
+    "email": "u1754947566005@ex.com",
+    "password": "$2b$10$P55EwpS4jSIzZiwyLTfU0ufdKGlQpO7bOaHnzqy9IjlijavzzFpoq",
+    "points": 0,
+    "collection": [
+      "Yazzilan_Industry_Zone"
+    ],
+    "packs": {
+      "normal": 8,
+      "premium": 0
+    },
+    "currency": {
+      "gold": 1000,
+      "premium": 0
+    },
+    "decks": [],
+    "xp": 0,
+    "level": 1,
+    "stats": {
+      "gamesPlayed": 0,
+      "gamesWon": 0,
+      "gamesLost": 0,
+      "cardsPlayed": 0,
+      "damageDealt": 0,
+      "unitsDeployed": 0,
+      "commandsPlayed": 0
+    },
+    "achievements": [],
+    "rank": {
+      "tier": "Bronze",
+      "division": 9,
+      "points": 0
+    },
+    "cardFragments": 0
+  },
+  {
+    "id": "08a17378-cb72-4975-808f-285203f7fe6b",
+    "username": "tester_1754947820160",
+    "email": "u1754947820160@ex.com",
+    "password": "$2b$10$uDAlWveS7gNAO5vtKMEHZeufEtdkA7F/XQr8ha5zC765Xnz1OaWwS",
+    "points": 0,
+    "collection": [
+      "Yazzilan_Industry_Zone"
+    ],
+    "packs": {
+      "normal": 8,
+      "premium": 0
+    },
+    "currency": {
+      "gold": 1000,
+      "premium": 0
+    },
+    "decks": [],
+    "xp": 0,
+    "level": 1,
+    "stats": {
+      "gamesPlayed": 0,
+      "gamesWon": 0,
+      "gamesLost": 0,
+      "cardsPlayed": 0,
+      "damageDealt": 0,
+      "unitsDeployed": 0,
+      "commandsPlayed": 0
+    },
+    "achievements": [],
+    "rank": {
+      "tier": "Bronze",
+      "division": 9,
+      "points": 0
+    },
+    "cardFragments": 0
+  },
+  {
+    "id": "9096e74a-54a7-4cd0-b7be-7591fe3f1da6",
+    "username": "tester_1754947879964",
+    "email": "u1754947879964@ex.com",
+    "password": "$2b$10$I1y88zahjH/q1NDGp5CAwufrU.U0OM7Zoiykr2UEVLte6fjvvgGNS",
+    "points": 0,
+    "collection": [
+      "Yazzilan_Industry_Zone"
+    ],
+    "packs": {
+      "normal": 8,
+      "premium": 0
+    },
+    "currency": {
+      "gold": 1000,
+      "premium": 0
+    },
+    "decks": [],
+    "xp": 0,
+    "level": 1,
+    "stats": {
+      "gamesPlayed": 0,
+      "gamesWon": 0,
+      "gamesLost": 0,
+      "cardsPlayed": 0,
+      "damageDealt": 0,
+      "unitsDeployed": 0,
+      "commandsPlayed": 0
+    },
+    "achievements": [],
+    "rank": {
+      "tier": "Bronze",
+      "division": 9,
+      "points": 0
+    },
+    "cardFragments": 0
+  },
+  {
+    "id": "6a28d224-daa2-4d2a-b5a7-00418b8ee8e6",
+    "username": "test_1754947944161",
+    "email": "test_1754947944161@example.com",
+    "password": "$2b$10$XGdL.v.neYCTvJLPAWQ.kO5lxyt2pJNY1QAPLjcEb5AzvLo/tQB9K",
+    "points": 0,
+    "collection": [],
+    "packs": {
+      "normal": 8,
+      "premium": 0
+    },
+    "currency": {
+      "gold": 1000,
+      "premium": 0
+    },
+    "decks": [],
+    "xp": 0,
+    "level": 1,
+    "stats": {
+      "gamesPlayed": 0,
+      "gamesWon": 0,
+      "gamesLost": 0,
+      "cardsPlayed": 0,
+      "damageDealt": 0,
+      "unitsDeployed": 0,
+      "commandsPlayed": 0
+    },
+    "achievements": [],
+    "rank": {
+      "tier": "Bronze",
+      "division": 9,
+      "points": 0
+    },
+    "cardFragments": 0
+  },
+  {
+    "id": "160fd423-8615-4947-ab7d-2fa5d6f95ae3",
+    "username": "tester_1754947944691",
+    "email": "u1754947944691@ex.com",
+    "password": "$2b$10$2nRONBZ0HLHLZGnwgap1vOiTteIbjkOb/IHFDeLOq4PUX.0Xe6pkO",
+    "points": 0,
+    "collection": [
+      "Yazzilan_Industry_Zone"
+    ],
+    "packs": {
+      "normal": 8,
+      "premium": 0
+    },
+    "currency": {
+      "gold": 1000,
+      "premium": 0
+    },
+    "decks": [],
+    "xp": 0,
+    "level": 1,
+    "stats": {
+      "gamesPlayed": 0,
+      "gamesWon": 0,
+      "gamesLost": 0,
+      "cardsPlayed": 0,
+      "damageDealt": 0,
+      "unitsDeployed": 0,
+      "commandsPlayed": 0
+    },
+    "achievements": [],
+    "rank": {
+      "tier": "Bronze",
+      "division": 9,
+      "points": 0
+    },
+    "cardFragments": 0
   }
 ]

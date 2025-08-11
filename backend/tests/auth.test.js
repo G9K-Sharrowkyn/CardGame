@@ -1,12 +1,14 @@
 import request from 'supertest';
-import http from 'http';
-import app from '../app.js';
-
-const server = http.createServer(app);
+import { server } from '../app.js';
 
 describe('Auth endpoints', () => {
-  beforeAll(() => server.listen(0));
-  afterAll(() => server.close());
+  beforeAll((done) => {
+    server.listen(0, done);
+  });
+
+  afterAll((done) => {
+    server.close(done);
+  });
 
   test('register and login', async () => {
     const timestamp = Date.now();
