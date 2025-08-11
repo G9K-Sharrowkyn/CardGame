@@ -1,13 +1,15 @@
 import request from 'supertest';
-import http from 'http';
-import app from '../app.js';
-
-const server = http.createServer(app);
+import { server } from '../app.js';
 
 let token;
 
-beforeAll(() => server.listen(0));
-afterAll(() => server.close());
+beforeAll((done) => {
+  server.listen(0, done);
+});
+
+afterAll((done) => {
+  server.close(done);
+});
 
 test('get cards list', async () => {
   const res = await request(server).get('/api/users/cards').expect(200);

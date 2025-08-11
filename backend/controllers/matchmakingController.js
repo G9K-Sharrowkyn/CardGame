@@ -264,5 +264,7 @@ export const cleanupOldMatches = () => {
   });
 };
 
-// Uruchom czyszczenie co 5 minut
-setInterval(cleanupOldMatches, 5 * 60 * 1000); 
+// Uruchom czyszczenie co 5 minut, ale nie w środowisku testowym
+if (process.env.NODE_ENV !== 'test') {
+  setInterval(cleanupOldMatches, 5 * 60 * 1000);
+}

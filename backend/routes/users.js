@@ -1,5 +1,5 @@
 import express from 'express';
-import { getProfile, addToCollection, getAllCards, getWalletAndPacks, buyPack, openPack, createDeck, deleteDeck, addCardToDeck, removeCardFromDeck, setActiveDeck, awardXP, updateGameStats, craftCard, getAchievements } from '../controllers/userController.js';
+import { getProfile, addToCollection, getAllCards, getWalletAndPacks, buyPack, openPack, createDeck, deleteDeck, addCardToDeck, removeCardFromDeck, setActiveDeck, getDecks, getActiveDeck, awardXP, updateGameStats, craftCard, getAchievements } from '../controllers/userController.js';
 import { protect } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
@@ -10,6 +10,10 @@ router.get('/cards', getAllCards);
 router.get('/wallet', protect, getWalletAndPacks);
 router.post('/buy-pack', protect, buyPack);
 router.post('/open-pack', protect, openPack);
+
+// Deck routes
+router.get('/decks', protect, getDecks);
+router.get('/active-deck', protect, getActiveDeck);
 router.post('/decks', protect, createDeck);
 router.delete('/decks/:name', protect, deleteDeck);
 router.post('/decks/:deckName/add', protect, addCardToDeck);

@@ -7,43 +7,51 @@ import API from '../api';
 
 const PlayGame = ({ user }) => {
   const { roomId } = useParams();
-  const [deck, setDeck] = useState([]);
   const [opponent, setOpponent] = useState(null);
   const [gameStarted, setGameStarted] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
 
   useEffect(() => {
+    socket.connect();
     socket.emit('joinRoom', { roomId, user: { id: user.id, username: user.username } });
     
     socket.on('playersUpdate', (list) => {
-      const opp = list.find(u => u.id !== user.id);
+      const opp = list.find(u => u.id !== user.id || u.id === 'bot');
       if (opp) setOpponent(opp);
       setLoading(false);
     });
     
-    socket.on('gameStart', ({ deck }) => {
-      setDeck(deck);
+    socket.on('gameStart', () => {
       setGameStarted(true);
     });
 
-    API.post(`/game/room/${roomId}/join`);
+    socket.on('gameError', (error) => {
+        setError(error.message);
+        setTimeout(() => setError(''), 3000);
+    });
+
+    // This is a REST call and might not be necessary if using sockets for everything
+    // API.post(`/game/room/${roomId}/join`);
     
     return () => {
       socket.off('playersUpdate');
       socket.off('gameStart');
+      socket.off('gameError');
+      socket.disconnect();
     };
-  }, [roomId]);
+  }, [roomId, user.id, user.username]);
 
   const startGame = () => {
     socket.emit('startGame', { roomId });
   };
 
-  if (loading) {
+  if (loading && !gameStarted) {
     return <LoadingScreen message="Joining game room..." />;
   }
 
-  if (gameStarted && deck.length > 0) {
-    return <GameInterface user={user} roomId={roomId} initialDeck={deck} />;
+  if (gameStarted) {
+    return <GameInterface user={user} roomId={roomId} />;
   }
 
   return (
